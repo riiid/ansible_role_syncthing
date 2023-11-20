@@ -48,6 +48,15 @@
   register: copy_syncthing_exec
   changed_when: "copy_syncthing_exec is changed and 'molecule-idempotence-notest' not in ansible_skip_tags" # Rotating keys
 
+- name: Update service
+  become: true
+  ansible.builtin.template:
+    src: syncthing.service.j2
+    dest: "/tmp/syncthing/etc/linux-systemd/system/syncthing@.service"
+    mode: "0644"
+    owner: "root"
+    group: "root"
+
 - name: Copy syncthing systemd units
   become: true
   ansible.builtin.copy:
